@@ -66,15 +66,12 @@ static void render_logo(void) {
 
 void print_status_narrow(void) {
     oled_write_P(PSTR("\n\n"), false);
-    switch (get_highest_layer(layer_state)) {
+    switch (get_highest_layer(default_layer_state)) {
         case 0:
             oled_write_ln_P(PSTR("Qwrt"), false);
             break;
         case 1:
-            oled_write_ln_P(PSTR("Clmk"), false);
-            break;
-        default:
-            oled_write_P(PSTR("Mod\n"), false);
+            oled_write_ln_P(PSTR("Galm"), false);
             break;
     }
     oled_write_P(PSTR("\n\n"), false);
@@ -85,10 +82,13 @@ void print_status_narrow(void) {
             oled_write_P(PSTR("Base\n"), false);
             break;
         case 2:
-            oled_write_P(PSTR("Raise"), false);
+            oled_write_P(PSTR("Lower"), false);
             break;
         case 3:
-            oled_write_P(PSTR("Lower"), false);
+            oled_write_P(PSTR("Raise"), false);
+            break;
+        case 4:
+            oled_write_P(PSTR("Adjst"), false);
             break;
         default:
             oled_write_ln_P(PSTR("Undef"), false);
@@ -119,9 +119,15 @@ bool encoder_update_kb(uint8_t index, bool clockwise) {
     }
     if (index == 0) {
         if (clockwise) {
-            tap_code(KC_VOLU);
+            register_mods(mod_config(MOD_LALT));
+            register_code(KC_LEFT);
+            unregister_mods(mod_config(MOD_LALT));
+            unregister_code(KC_LEFT);
         } else {
-            tap_code(KC_VOLD);
+            register_mods(mod_config(MOD_LALT));
+            register_code(KC_RIGHT);
+            unregister_mods(mod_config(MOD_LALT));
+            unregister_code(KC_RIGHT);
         }
     } else if (index == 1) {
         if (clockwise) {
