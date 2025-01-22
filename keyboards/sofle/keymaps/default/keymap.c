@@ -69,7 +69,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 [_GALLIUM] = LAYOUT(
   KC_GRV,         KC_1,         KC_2,         KC_3,         KC_4,    KC_5,                        KC_6,         KC_7,         KC_8,         KC_9,         KC_0,  KC_BSLS,
   KC_TAB,         KC_B,         KC_L,         KC_D,         KC_C,    KC_V,                        KC_J,         KC_Y,         KC_O,         KC_U,      KC_COMM,  KC_BSPC,
-  KC_ESC, LGUI_T(KC_N), LALT_T(KC_R), LCTL_T(KC_T), LSFT_T(KC_S),    KC_G,                        KC_P, RSFT_T(KC_H), RCTL_T(KC_A), RALT_T(KC_E), RGUI_T(KC_I),  KC_SLSH,
+  KC_ESC, LGUI_T(KC_N), LALT_T(KC_R), LCTL_T(KC_T), LSFT_T(KC_S),    KC_G,                        KC_P, RSFT_T(KC_H), RCTL_T(KC_A), LALT_T(KC_E), RGUI_T(KC_I),  KC_SLSH,
   KC_LSFT,        KC_X,         KC_Q,         KC_M,         KC_W,    KC_Z, KC_MUTE,      XXXXXXX, KC_K,         KC_F,      KC_QUOT,      KC_SCLN,       KC_DOT,  KC_RSFT,
                                        KC_LGUI, KC_LALT, KC_LCTL, TL_LOWR,  KC_ENT,       KC_SPC, TL_UPPR, KC_RCTL, KC_RALT, KC_RGUI
 ),
@@ -98,9 +98,9 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  * ,----------------------------------------.                    ,-----------------------------------------.
  * |      |      |      |      |      |      |                    |      |      |      |      |      |      |
  * |------+------+------+------+------+------|                    |------+------+------+------+------+------|
- * | Esc  | Ins  | Pscr | Menu |      |      |                    |      | PgDn | PgUp |      | DLine| Bspc |
+ * | Tab  | Ins  | Pscr | Menu |      |      |                    |      | PgDn | PgUp |      | DLine| Bspc |
  * |------+------+------+------+------+------|                    |------+------+------+------+------+------|
- * | Tab  | LAt  | LCtl |LShift|      | Caps |-------.    ,-------| Left | Down |  Up  | Right|  Del | Bspc |
+ * | Esc  | LAt  | LCtl |LShift|      | Caps |-------.    ,-------| Left | Down |  Up  | Right|  Del | Bspc |
  * |------+------+------+------+------+------|  MUTE  |    |       |------+------+------+------+------+------|
  * |Shift | Undo |  Cut | Copy | Paste|      |-------|    |-------|  Strt| PWrd | NWrd |  End |      | Shift|
  * `-----------------------------------------/       /     \      \-----------------------------------------'
@@ -267,11 +267,14 @@ layer_state_t default_layer_state_set_user(layer_state_t state) {
 
 uint16_t get_tapping_term(uint16_t keycode, keyrecord_t *record) {
     switch (keycode) {
-        case RALT_T(KC_E):
+        case LALT_T(KC_E):
+        case LALT_T(KC_R):
             return 180;
         case RCTL_T(KC_A):
+        case LCTL_T(KC_T):
             return 190;
         case RGUI_T(KC_I):
+        case LGUI_T(KC_N):
             return 200;
         default:
             return TAPPING_TERM;

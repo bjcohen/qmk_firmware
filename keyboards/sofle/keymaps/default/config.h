@@ -8,7 +8,8 @@
 #define TRI_LAYER_ADJUST_LAYER 4
 // https://precondition.github.io/home-row-mods
 // https://getreuer.info/posts/keyboards/achordion/index.html#overview
-// #define PERMISSIVE_HOLD
+// https://github.com/urob/zmk-config
+#define PERMISSIVE_HOLD
 #define TAPPING_TERM 120
 #define TAPPING_TERM_PER_KEY
 #define QUICK_TAP_TERM 10
