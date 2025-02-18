@@ -89,7 +89,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  */
 [_LOWER] = LAYOUT(
   _______,           KC_F1,         KC_F2,           KC_F3,          KC_F4,   KC_F5,                           KC_F6,           KC_F7,           KC_F8,           KC_F9,          KC_F10,  KC_F11,
-  KC_GRV,              KC_1,         KC_2,            KC_3,           KC_4,    KC_5,                            KC_6,            KC_7,            KC_8,            KC_9,            KC_0,  KC_F12,
+  KC_GRV,             KC_1,          KC_2,            KC_3,           KC_4,    KC_5,                            KC_6,            KC_7,            KC_8,            KC_9,            KC_0,  KC_F12,
   _______, LGUI_T(KC_EXLM), LALT_T(KC_AT), LCTL_T(KC_HASH), LSFT_T(KC_DLR), KC_PERC,                         KC_CIRC, RSFT_T(KC_AMPR), RCTL_T(KC_ASTR), LALT_T(KC_LPRN), RGUI_T(KC_RPRN), KC_PIPE,
   _______,          KC_EQL,       KC_MINS,         KC_PLUS,        KC_LCBR, KC_RCBR, _______,       _______, KC_LBRC,         KC_RBRC,         KC_SCLN,         KC_COLN,         KC_BSLS, _______,
                        _______, _______, _______, _______, _______,       _______, _______, _______, _______, _______
@@ -109,10 +109,10 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  *            `----------------------------------'           '------''---------------------------'
  */
 [_RAISE] = LAYOUT(
-  _______, _______ , _______ , _______ , _______ , _______,                      _______,  _______  , _______,  _______ ,  _______ ,_______,
-  _______,  KC_INS,  KC_PSCR,   KC_APP,  XXXXXXX, XXXXXXX,                       XXXXXXX,  KC_PGDN, KC_PGUP, XXXXXXX,C(KC_BSPC), KC_BSPC,
-  _______, KC_LALT,  KC_LCTL,  KC_LSFT,  XXXXXXX, KC_CAPS,                       KC_LEFT,  KC_DOWN,   KC_UP, KC_RGHT,  KC_DEL, KC_BSPC,
-  _______, C(KC_Z), C(KC_X), C(KC_C), C(KC_V), XXXXXXX,  _______,       _______,  KC_HOME, KC_PRVWD, KC_NXTWD, KC_END,   XXXXXXX, _______,
+  _______,   _______ ,   _______ ,   _______ ,  _______ ,  _______,                       _______,  _______  , _______,  _______ ,  _______ ,_______,
+  _______,     KC_INS,    KC_PSCR,     KC_APP,   XXXXXXX,  XXXXXXX,                       XXXXXXX,  KC_PGDN, KC_PGUP, XXXXXXX,C(KC_BSPC), KC_BSPC,
+  _______,    KC_LALT,    KC_LCTL,    KC_LSFT,   XXXXXXX,  KC_CAPS,                       KC_LEFT,  KC_DOWN,   KC_UP, KC_RGHT,  KC_DEL, KC_BSPC,
+  _______, LGUI(KC_Z), LGUI(KC_X), LGUI(KC_C), LGUI(KC_V), XXXXXXX,  _______,       _______,  KC_HOME, KC_PRVWD, KC_NXTWD, KC_END,   XXXXXXX, _______,
                          _______, _______, _______, _______, _______,       _______, _______, _______, _______, _______
 ),
 /* ADJUST
