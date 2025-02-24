@@ -253,6 +253,78 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
                 host_consumer_send(0);
             }
             break;
+        case LGUI_T(KC_EXLM):
+            if (record->event.pressed) {
+                register_mods(mod_config(MOD_LSFT));
+                register_code(KC_1);
+            } else {
+                unregister_mods(mod_config(MOD_LSFT));
+                unregister_code(KC_1);
+            }
+            return false;
+        case LALT_T(KC_AT):
+            if (record->event.pressed) {
+                register_mods(mod_config(MOD_LSFT));
+                register_code(KC_2);
+            } else {
+                unregister_mods(mod_config(MOD_LSFT));
+                unregister_code(KC_2);
+            }
+            return false;
+        case LCTL_T(KC_HASH):
+            if (record->event.pressed) {
+                register_mods(mod_config(MOD_LSFT));
+                register_code(KC_3);
+            } else {
+                unregister_mods(mod_config(MOD_LSFT));
+                unregister_code(KC_3);
+            }
+            return false;
+        case LSFT_T(KC_DLR):
+            if (record->event.pressed) {
+                register_mods(mod_config(MOD_LSFT));
+                register_code(KC_4);
+            } else {
+                unregister_mods(mod_config(MOD_LSFT));
+                unregister_code(KC_4);
+            }
+            return false;
+        case RSFT_T(KC_AMPR):
+            if (record->event.pressed) {
+                register_mods(mod_config(MOD_LSFT));
+                register_code(KC_7);
+            } else {
+                unregister_mods(mod_config(MOD_LSFT));
+                unregister_code(KC_7);
+            }
+            return false;
+        case RCTL_T(KC_ASTR):
+            if (record->event.pressed) {
+                register_mods(mod_config(MOD_LSFT));
+                register_code(KC_8);
+            } else {
+                unregister_mods(mod_config(MOD_LSFT));
+                unregister_code(KC_8);
+            }
+            return false;
+        case LALT_T(KC_LPRN):
+            if (record->event.pressed) {
+                register_mods(mod_config(MOD_LSFT));
+                register_code(KC_9);
+            } else {
+                unregister_mods(mod_config(MOD_LSFT));
+                unregister_code(KC_9);
+            }
+            return false;
+        case RGUI_T(KC_RPRN):
+            if (record->event.pressed) {
+                register_mods(mod_config(MOD_LSFT));
+                register_code(KC_0);
+            } else {
+                unregister_mods(mod_config(MOD_LSFT));
+                unregister_code(KC_0);
+            }
+            return false;
     }
 
     return true;
