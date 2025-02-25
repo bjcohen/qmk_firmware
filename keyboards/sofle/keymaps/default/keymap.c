@@ -254,77 +254,77 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
             }
             break;
         case LGUI_T(KC_EXLM):
-            if (record->event.pressed) {
-                register_mods(mod_config(MOD_LSFT));
-                register_code(KC_1);
-            } else {
-                unregister_mods(mod_config(MOD_LSFT));
-                unregister_code(KC_1);
+            if (record->tap.count == 1) {
+                if (record->event.pressed) {
+                    register_mods(mod_config(MOD_LSFT));
+                } else {
+                    unregister_mods(mod_config(MOD_LSFT));
+                }
             }
-            return false;
+            break;
         case LALT_T(KC_AT):
-            if (record->event.pressed) {
-                register_mods(mod_config(MOD_LSFT));
-                register_code(KC_2);
-            } else {
-                unregister_mods(mod_config(MOD_LSFT));
-                unregister_code(KC_2);
+            if (record->tap.count == 1) {
+                if (record->event.pressed) {
+                    register_mods(mod_config(MOD_LSFT));
+                } else {
+                    unregister_mods(mod_config(MOD_LSFT));
+                }
             }
-            return false;
+            break;
         case LCTL_T(KC_HASH):
-            if (record->event.pressed) {
-                register_mods(mod_config(MOD_LSFT));
-                register_code(KC_3);
-            } else {
-                unregister_mods(mod_config(MOD_LSFT));
-                unregister_code(KC_3);
+            if (record->tap.count == 1) {
+                if (record->event.pressed) {
+                    register_mods(mod_config(MOD_LSFT));
+                } else {
+                    unregister_mods(mod_config(MOD_LSFT));
+                }
             }
-            return false;
+            break;
         case LSFT_T(KC_DLR):
-            if (record->event.pressed) {
-                register_mods(mod_config(MOD_LSFT));
-                register_code(KC_4);
-            } else {
-                unregister_mods(mod_config(MOD_LSFT));
-                unregister_code(KC_4);
+            if (record->tap.count == 1) {
+                if (record->event.pressed) {
+                    register_mods(mod_config(MOD_LSFT));
+                } else {
+                    unregister_mods(mod_config(MOD_LSFT));
+                }
             }
-            return false;
+            break;
         case RSFT_T(KC_AMPR):
-            if (record->event.pressed) {
-                register_mods(mod_config(MOD_LSFT));
-                register_code(KC_7);
-            } else {
-                unregister_mods(mod_config(MOD_LSFT));
-                unregister_code(KC_7);
+            if (record->tap.count == 1) {
+                if (record->event.pressed) {
+                    register_mods(mod_config(MOD_LSFT));
+                } else {
+                    unregister_mods(mod_config(MOD_LSFT));
+                }
             }
-            return false;
+            break;
         case RCTL_T(KC_ASTR):
-            if (record->event.pressed) {
-                register_mods(mod_config(MOD_LSFT));
-                register_code(KC_8);
-            } else {
-                unregister_mods(mod_config(MOD_LSFT));
-                unregister_code(KC_8);
+            if (record->tap.count == 1) {
+                if (record->event.pressed) {
+                    register_mods(mod_config(MOD_LSFT));
+                } else {
+                    unregister_mods(mod_config(MOD_LSFT));
+                }
             }
-            return false;
+            break;
         case LALT_T(KC_LPRN):
-            if (record->event.pressed) {
-                register_mods(mod_config(MOD_LSFT));
-                register_code(KC_9);
-            } else {
-                unregister_mods(mod_config(MOD_LSFT));
-                unregister_code(KC_9);
+            if (record->tap.count == 1) {
+                if (record->event.pressed) {
+                    register_mods(mod_config(MOD_LSFT));
+                } else {
+                    unregister_mods(mod_config(MOD_LSFT));
+                }
             }
-            return false;
+            break;
         case RGUI_T(KC_RPRN):
-            if (record->event.pressed) {
-                register_mods(mod_config(MOD_LSFT));
-                register_code(KC_0);
-            } else {
-                unregister_mods(mod_config(MOD_LSFT));
-                unregister_code(KC_0);
+            if (record->tap.count == 1) {
+                if (record->event.pressed) {
+                    register_mods(mod_config(MOD_LSFT));
+                } else {
+                    unregister_mods(mod_config(MOD_LSFT));
+                }
             }
-            return false;
+            break;
     }
 
     return true;
