@@ -119,7 +119,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  * ,-----------------------------------------.                    ,-----------------------------------------.
  * |      |      |      |      |      |      |                    |      |      |      |      |      |      |
  * |------+------+------+------+------+------|                    |------+------+------+------+------+------|
- * | QK_BOOT|    |      |      |      |      |                    |      | BRID | BRIU | MCTL |      |      |
+ * | QK_BOOT|    |      |      |      |      |                    | BRID | BRIU | MCTL | SPOT | DICT | DND  |
  * |------+------+------+------+------+------|                    |------+------+------+------+------+------|
  * |      |      |MACWIN|      |      |      |-------.    ,-------|      | VOLDO| MUTE | VOLUP|      |      |
  * |------+------+------+------+------+------|  MUTE |    |       |------+------+------+------+------+------|
@@ -131,7 +131,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  */
   [_ADJUST] = LAYOUT(
   XXXXXXX , XXXXXXX,   XXXXXXX,    XXXXXXX, XXXXXXX, XXXXXXX,                   XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
-  QK_BOOT , XXXXXXX,   XXXXXXX,    XXXXXXX, CG_TOGG, XXXXXXX,                   XXXXXXX, KC_BRID, KC_BRIU, KC_MCTL, XXXXXXX, XXXXXXX,
+  QK_BOOT , XXXXXXX,   XXXXXXX,    XXXXXXX, CG_TOGG, XXXXXXX,                   KC_BRID, KC_BRIU, KC_MCTL, KC_SPOT, KC_DICT,  KC_DND,
   XXXXXXX , XXXXXXX,   CG_TOGG,    XXXXXXX, XXXXXXX, XXXXXXX,                   XXXXXXX, KC_VOLD, KC_MUTE, KC_VOLU, XXXXXXX, XXXXXXX,
   XXXXXXX , XXXXXXX, KC_QWERTY, KC_GALLIUM, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, KC_MPRV, KC_MPLY, KC_MNXT, XXXXXXX, XXXXXXX,
                    _______, _______, _______, _______, _______,     _______, _______, _______, _______, _______
@@ -224,35 +224,35 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
             } else {
                 host_consumer_send(0);
             }
-            break;
+            return false;
         case KC_DICT:
             if (record->event.pressed) {
                 host_consumer_send(0xcf);
             } else {
                 host_consumer_send(0);
             }
-            break;
+            return false;
         case KC_DND:
             if (record->event.pressed) {
                 host_consumer_send(0x9b);
             } else {
                 host_consumer_send(0);
             }
-            break;
+            return false;
         case KC_LOCK:
             if (record->event.pressed) {
                 host_consumer_send(0x19e);
             } else {
                 host_consumer_send(0);
             }
-            break;
+            return false;
         case KC_LPAD:
             if (record->event.pressed) {
                 host_consumer_send(0x2a0);
             } else {
                 host_consumer_send(0);
             }
-            break;
+            return false;
         case LGUI_T(KC_EXLM):
             if (record->tap.count == 1) {
                 if (record->event.pressed) {
