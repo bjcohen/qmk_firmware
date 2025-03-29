@@ -1,2 +1,3 @@
 TRI_LAYER_ENABLE = yes
 CONVERT_TO=promicro_rp2040
+CAPS_WORD_ENABLE = yes
