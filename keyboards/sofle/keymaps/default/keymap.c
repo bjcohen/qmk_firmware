@@ -103,11 +103,11 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  * ,----------------------------------------.                    ,-----------------------------------------.
  * |      |      |      |      |      |      |                    |      |      |      |      |      |      |
  * |------+------+------+------+------+------|                    |------+------+------+------+------+------|
- * |      |  F7  |  F8  |  F9  | F10  |      |                    | Redo | Past | Copy | Cut  | Undo |      |
+ * | CTab |  F7  |  F8  |  F9  | F10  |      |                    | Redo | Past | Copy | Cut  | Undo |      |
  * |------+------+------+------+------+------|                    |------+------+------+------+------+------|
- * |      |  F4  |  F5  |  F6  | F11  | Caps |-------.    ,-------| Left | Down |  Up  | Right|  Del | Bspc |
+ * | KTab |  F4  |  F5  |  F6  | F11  | Caps |-------.    ,-------| Left | Down |  Up  | Right|  Del | Bspc |
  * |------+------+------+------+------+------|  MUTE |    |       |------+------+------+------+------+------|
- * |      |  F1  |  F2  |  F3  | F12  |      |-------|    |-------|  Strt| PgDn | PgUp |  End |      |      |
+ * |      |  F1  |  F2  |  F3  | F12  |      |-------|    |-------|  Strt| PgDn | PgUp |  End |  D   |      |
  * `-----------------------------------------/       /     \      \-----------------------------------------'
  *            | LGUI | LAlt | LCTR |LOWER | /Enter  /       \Space \  |RAISE | RCTR | RAlt | RGUI |
  *            |      |      |      |      |/       /         \      \ |      |      |      |      |
@@ -181,7 +181,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
             }
             return false;
         case LGUI_T(KC_EXLM):
-            if (record->tap.count == 1) {
+            if (record->tap.count == 1 && !record->tap.interrupted) {
                 if (record->event.pressed) {
                     register_mods(mod_config(MOD_LSFT));
                 } else {
@@ -190,7 +190,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
             }
             break;
         case LALT_T(KC_AT):
-            if (record->tap.count == 1) {
+            if (record->tap.count == 1 && !record->tap.interrupted) {
                 if (record->event.pressed) {
                     register_mods(mod_config(MOD_LSFT));
                 } else {
@@ -199,7 +199,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
             }
             break;
         case LCTL_T(KC_HASH):
-            if (record->tap.count == 1) {
+            if (record->tap.count == 1 && !record->tap.interrupted) {
                 if (record->event.pressed) {
                     register_mods(mod_config(MOD_LSFT));
                 } else {
@@ -208,7 +208,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
             }
             break;
         case LSFT_T(KC_DLR):
-            if (record->tap.count == 1) {
+            if (record->tap.count == 1 && !record->tap.interrupted) {
                 if (record->event.pressed) {
                     register_mods(mod_config(MOD_LSFT));
                 } else {
@@ -217,7 +217,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
             }
             break;
         case RGUI_T(KC_LCBR):
-            if (record->tap.count == 1) {
+            if (record->tap.count == 1 && !record->tap.interrupted) {
                 if (record->event.pressed) {
                     register_mods(mod_config(MOD_LSFT));
                 } else {
@@ -227,11 +227,11 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
             break;
         case LSFT_T(CW_TOGG):
         case RSFT_T(CW_TOGG):
-            if (record->tap.count == 1) {
+            if (record->tap.count == 1 && !record->tap.interrupted) {
                 if (record->event.pressed) {
                     caps_word_toggle();
                 }
-            return false;
+                return false;
             }
     }
 
@@ -255,6 +255,8 @@ uint16_t get_tapping_term(uint16_t keycode, keyrecord_t *record) {
         case LCTL_T(KC_HASH):
         case RCTL_T(KC_UP):
         case LCTL_T(KC_F6):
+        case TT(_LOWER):
+        case TT(_RAISE):
             return 160;
         case LALT_T(KC_S):
         case LALT_T(KC_L):

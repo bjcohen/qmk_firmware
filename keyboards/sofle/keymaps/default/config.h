@@ -15,3 +15,4 @@
 #define QUICK_TAP_TERM 120
 #define CHORDAL_HOLD
 #define TAPPING_TOGGLE 1
+#define FLOW_TAP_TERM 150
