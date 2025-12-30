@@ -10,9 +10,9 @@
 // https://getreuer.info/posts/keyboards/achordion/index.html#overview
 // https://github.com/urob/zmk-config
 #define PERMISSIVE_HOLD
-#define TAPPING_TERM 120
+#define TAPPING_TERM 280
 #define TAPPING_TERM_PER_KEY
-#define QUICK_TAP_TERM 120
+#define QUICK_TAP_TERM 175
 #define CHORDAL_HOLD
 #define TAPPING_TOGGLE 1
 #define FLOW_TAP_TERM 150

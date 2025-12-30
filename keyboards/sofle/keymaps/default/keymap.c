@@ -247,36 +247,51 @@ layer_state_t default_layer_state_set_user(layer_state_t state) {
 
 uint16_t get_tapping_term(uint16_t keycode, keyrecord_t *record) {
     switch (keycode) {
-        case RCTL_T(KC_K):
-        case LCTL_T(KC_D):
-        case RCTL_T(KC_A):
-        case LCTL_T(KC_T):
-        case RCTL_T(KC_5):
-        case LCTL_T(KC_HASH):
-        case RCTL_T(KC_UP):
-        case LCTL_T(KC_F6):
         case TT(_LOWER):
         case TT(_RAISE):
-            return 160;
-        case LALT_T(KC_S):
-        case LALT_T(KC_L):
-        case LALT_T(KC_E):
-        case LALT_T(KC_R):
-        case LALT_T(KC_AT):
-        case LALT_T(KC_6):
-        case LALT_T(KC_F5):
-        case LALT_T(KC_RGHT):
-            return 180;
-        case RGUI_T(KC_SCLN):
-        case LGUI_T(KC_K):
-        case RGUI_T(KC_I):
-        case LGUI_T(KC_N):
-        case RGUI_T(KC_LCBR):
-        case LGUI_T(KC_EXLM):
-        case RGUI_T(KC_DEL):
-        case LGUI_T(KC_F4):
-            return 200;
+        case LSFT_T(CW_TOGG):
+        case RSFT_T(CW_TOGG):
+            return 150;
+        /* case RCTL_T(KC_K): */
+        /* case LCTL_T(KC_D): */
+        /* case RCTL_T(KC_A): */
+        /* case LCTL_T(KC_T): */
+        /* case RCTL_T(KC_5): */
+        /* case LCTL_T(KC_HASH): */
+        /* case RCTL_T(KC_UP): */
+        /* case LCTL_T(KC_F6): */
+        /*      return 160; */
+        /* case LALT_T(KC_S): */
+        /* case LALT_T(KC_L): */
+        /* case LALT_T(KC_E): */
+        /* case LALT_T(KC_R): */
+        /* case LALT_T(KC_AT): */
+        /* case LALT_T(KC_6): */
+        /* case LALT_T(KC_F5): */
+        /* case LALT_T(KC_RGHT): */
+        /*     return 180; */
+        /* case RGUI_T(KC_SCLN): */
+        /* case LGUI_T(KC_K): */
+        /* case RGUI_T(KC_I): */
+        /* case LGUI_T(KC_N): */
+        /* case RGUI_T(KC_LCBR): */
+        /* case LGUI_T(KC_EXLM): */
+        /* case RGUI_T(KC_DEL): */
+        /* case LGUI_T(KC_F4): */
+        /*     return 200; */
         default:
             return TAPPING_TERM;
     }
+}
+
+bool sentence_case_check_ending(const uint16_t* buffer) {
+    // Don't consider the abbreviations "vs." and "etc." to end the sentence.
+    if (SENTENCE_CASE_JUST_TYPED(KC_SPC, KC_V, KC_S, KC_DOT) ||
+        SENTENCE_CASE_JUST_TYPED(KC_SPC, KC_E, KC_T, KC_C, KC_DOT) ||
+        SENTENCE_CASE_JUST_TYPED(KC_I, KC_DOT, KC_E, KC_DOT) ||
+        SENTENCE_CASE_JUST_TYPED(KC_E, KC_DOT, KC_G, KC_DOT)) {
+        return false;  // Not a real sentence ending.
+    }
+
+    return true;  // Real sentence ending; capitalize next letter.
 }
