@@ -34,11 +34,11 @@
   "split": {
     "enabled": true,
     "serial": {
-      "pin": "D0"
+      "pin": "D0",
+      "speed": 3
     }
   },
-  "processor": "atmega32u4",
-  "bootloader": "caterina",
+  "development_board": "promicro",
   "layouts": {
     "LAYOUT": {
       "layout": [

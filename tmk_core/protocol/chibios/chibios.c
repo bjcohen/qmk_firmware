@@ -40,9 +40,6 @@
 #    define EARLY_INIT_PERFORM_BOOTLOADER_JUMP FALSE
 #endif
 
-#ifdef SLEEP_LED_ENABLE
-#    include "sleep_led.h"
-#endif
 #ifdef MIDI_ENABLE
 #    include "qmk_midi.h"
 #endif
@@ -66,9 +63,19 @@ void send_keyboard(report_keyboard_t *report);
 void send_nkro(report_nkro_t *report);
 void send_mouse(report_mouse_t *report);
 void send_extra(report_extra_t *report);
+void send_raw_hid(uint8_t *data, uint8_t length);
 
 /* host struct */
-host_driver_t chibios_driver = {.keyboard_leds = usb_device_state_get_leds, .send_keyboard = send_keyboard, .send_nkro = send_nkro, .send_mouse = send_mouse, .send_extra = send_extra};
+host_driver_t chibios_driver = {
+    .keyboard_leds = usb_device_state_get_leds,
+    .send_keyboard = send_keyboard,
+    .send_nkro     = send_nkro,
+    .send_mouse    = send_mouse,
+    .send_extra    = send_extra,
+#ifdef RAW_ENABLE
+    .send_raw_hid = send_raw_hid,
+#endif
+};
 
 #ifdef VIRTSER_ENABLE
 void virtser_task(void);
@@ -184,6 +191,9 @@ void protocol_pre_task(void) {
                 //
                 // Pause for a while to let things settle...
                 wait_ms(USB_SUSPEND_WAKEUP_DELAY);
+                // ...and then update the wakeup matrix again as the waking key
+                // might have been released during the delay
+                update_matrix_state_after_wakeup();
 #    endif
             }
         }

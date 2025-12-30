@@ -80,8 +80,10 @@ uint16_t pointing_device_get_shared_cpi(void) {
 
 #endif // defined(SPLIT_POINTING_ENABLE)
 
-static report_mouse_t local_mouse_report         = {};
-static bool           pointing_device_force_send = false;
+static report_mouse_t           local_mouse_report         = {};
+static bool                     pointing_device_force_send = false;
+static pointing_device_status_t pointing_device_status     = POINTING_DEVICE_STATUS_UNKNOWN;
+
 #ifdef POINTING_DEVICE_HIRES_SCROLL_ENABLE
 static uint16_t hires_scroll_resolution;
 #endif
@@ -90,7 +92,9 @@ static uint16_t hires_scroll_resolution;
 #define POINTING_DEVICE_DRIVER(name) POINTING_DEVICE_DRIVER_CONCAT(name)
 
 #ifdef POINTING_DEVICE_DRIVER_custom
-__attribute__((weak)) void           pointing_device_driver_init(void) {}
+__attribute__((weak)) bool pointing_device_driver_init(void) {
+    return false;
+}
 __attribute__((weak)) report_mouse_t pointing_device_driver_get_report(report_mouse_t mouse_report) {
     return mouse_report;
 }
@@ -108,6 +112,11 @@ const pointing_device_driver_t custom_pointing_device_driver = {
 #endif
 
 const pointing_device_driver_t *pointing_device_driver = &POINTING_DEVICE_DRIVER(POINTING_DEVICE_DRIVER_NAME);
+
+__attribute__((weak)) void           pointing_device_init_modules(void) {}
+__attribute__((weak)) report_mouse_t pointing_device_task_modules(report_mouse_t mouse_report) {
+    return mouse_report;
+}
 
 /**
  * @brief Keyboard level code pointing device initialisation
@@ -174,7 +183,11 @@ __attribute__((weak)) void pointing_device_init(void) {
     if ((POINTING_DEVICE_THIS_SIDE))
 #endif
     {
-        pointing_device_driver->init();
+        if (pointing_device_driver->init()) {
+            pointing_device_status = POINTING_DEVICE_STATUS_SUCCESS;
+        } else {
+            pointing_device_status = POINTING_DEVICE_STATUS_INIT_FAILED;
+        }
 #ifdef POINTING_DEVICE_MOTION_PIN
 #    ifdef POINTING_DEVICE_MOTION_PIN_ACTIVE_LOW
         gpio_set_pin_input_high(POINTING_DEVICE_MOTION_PIN);
@@ -190,8 +203,31 @@ __attribute__((weak)) void pointing_device_init(void) {
     }
 #endif
 
+    pointing_device_init_modules();
     pointing_device_init_kb();
     pointing_device_init_user();
+}
+
+/**
+ * @brief Gets status of pointing device
+ *
+ * Returns current pointing device status
+ * @return pointing_device_status_t
+ */
+__attribute__((weak)) pointing_device_status_t pointing_device_get_status(void) {
+#ifdef SPLIT_POINTING_ENABLE
+    // Assume target side is always good, split transaction checksum should stop additional reports being generated.
+    return POINTING_DEVICE_THIS_SIDE ? pointing_device_status : POINTING_DEVICE_STATUS_SUCCESS;
+#else
+    return pointing_device_status;
+#endif
+}
+
+/**
+ * @brief Sets status of pointing device
+ */
+void pointing_device_set_status(pointing_device_status_t status) {
+    pointing_device_status = status;
 }
 
 /**
@@ -275,6 +311,10 @@ __attribute__((weak)) bool pointing_device_task(void) {
     last_exec = timer_read32();
 #endif
 
+    if (pointing_device_get_status() != POINTING_DEVICE_STATUS_SUCCESS) {
+        return false;
+    }
+
     // Gather report info
 #ifdef POINTING_DEVICE_MOTION_PIN
 #    if defined(SPLIT_POINTING_ENABLE)
@@ -319,8 +359,9 @@ __attribute__((weak)) bool pointing_device_task(void) {
     local_mouse_report = is_keyboard_left() ? pointing_device_task_combined_kb(local_mouse_report, shared_mouse_report) : pointing_device_task_combined_kb(shared_mouse_report, local_mouse_report);
 #else
     local_mouse_report = pointing_device_adjust_by_defines(local_mouse_report);
-    local_mouse_report = pointing_device_task_kb(local_mouse_report);
 #endif
+    local_mouse_report = pointing_device_task_modules(local_mouse_report);
+    local_mouse_report = pointing_device_task_kb(local_mouse_report);
     // automatic mouse layer function
 #ifdef POINTING_DEVICE_AUTO_MOUSE_ENABLE
     pointing_device_task_auto_mouse(local_mouse_report);
