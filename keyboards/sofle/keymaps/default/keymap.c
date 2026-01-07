@@ -53,7 +53,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   KC_TAB,           KC_Q,         KC_W,         KC_E,         KC_R,    KC_T,                      KC_Y,         KC_U,         KC_I,         KC_O,            KC_P,  KC_BSPC,
   KC_ESC,   LGUI_T(KC_A), LALT_T(KC_S), LCTL_T(KC_D), LSFT_T(KC_F),    KC_G,                      KC_H, RSFT_T(KC_J), RCTL_T(KC_K), LALT_T(KC_L), RGUI_T(KC_SCLN),  KC_QUOT,
   LSFT_T(CW_TOGG),  KC_Z,         KC_X,         KC_C,         KC_V,    KC_B, KC_MUTE,     XXXXXXX,KC_N,         KC_M,      KC_COMM,       KC_DOT,         KC_SLSH,  RSFT_T(CW_TOGG),
-                                         KC_LGUI, KC_LALT, _LOWER, KC_ENT, TT(_LOWER),      TT(_RAISE), KC_SPC, _RAISE, KC_LALT, KC_RGUI
+                                    KC_LGUI, KC_LALT, MO(_LOWER), KC_ENT, TT(_LOWER),       TT(_RAISE), KC_SPC, MO(_RAISE), KC_LALT, KC_RGUI
 ),
 /*
  * GALLIUM
@@ -76,7 +76,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   KC_TAB,         KC_B,         KC_L,         KC_D,         KC_C,    KC_V,                        KC_J,         KC_Y,         KC_O,         KC_U,      KC_COMM,  KC_BSPC,
   KC_ESC, LGUI_T(KC_N), LALT_T(KC_R), LCTL_T(KC_T), LSFT_T(KC_S),    KC_G,                        KC_P, RSFT_T(KC_H), RCTL_T(KC_A), LALT_T(KC_E), RGUI_T(KC_I),  KC_SLSH,
   LSFT_T(CW_TOGG),KC_X,         KC_Q,         KC_M,         KC_W,    KC_Z, KC_MUTE,      XXXXXXX, KC_K,         KC_F,      KC_QUOT,      KC_SCLN,       KC_DOT,  RSFT_T(CW_TOGG),
-                                      KC_LGUI, KC_LALT, _LOWER, KC_ENT, TT(_LOWER),         TT(_RAISE), KC_SPC, _RAISE, KC_LALT, KC_RGUI
+                                  KC_LGUI, KC_LALT, MO(_LOWER), KC_ENT, TT(_LOWER),         TT(_RAISE), KC_SPC, MO(_RAISE), KC_LALT, KC_RGUI
 ),
 /* LOWER
  * ,-----------------------------------------.                    ,-----------------------------------------.
@@ -192,6 +192,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
         case LALT_T(KC_AT):
             if (record->tap.count == 1 && !record->tap.interrupted) {
                 if (record->event.pressed) {
+                    sentence_case_clear();
                     register_mods(mod_config(MOD_LSFT));
                 } else {
                     unregister_mods(mod_config(MOD_LSFT));
@@ -294,4 +295,43 @@ bool sentence_case_check_ending(const uint16_t* buffer) {
     }
 
     return true;  // Real sentence ending; capitalize next letter.
+}
+
+char sentence_case_press_user(uint16_t keycode,
+                              keyrecord_t* record,
+                              uint8_t mods) {
+  if ((mods & ~(MOD_MASK_SHIFT | MOD_BIT(KC_RALT))) == 0) {
+    const bool shifted = mods & MOD_MASK_SHIFT;
+    switch (keycode) {
+      case KC_A ... KC_Z:
+        return 'a';  // Letter key.
+
+      case KC_DOT:  // . is punctuation, Shift . is a symbol (>)
+        return !shifted ? '.' : '#';
+      case KC_1:
+      case KC_SLSH:
+        return shifted ? '.' : '#';
+      case KC_EXLM:
+      case KC_QUES:
+        return '.';
+      case KC_2 ... KC_0:  // 2 3 4 5 6 7 8 9 0
+      case KC_AT ... KC_RPRN:  // @ # $ % ^ & * ( )
+      case KC_MINS ... KC_SCLN:  // - = [ ] backslash ;
+      case KC_UNDS ... KC_COLN:  // _ + { } | :
+      case KC_GRV:
+      case KC_COMM:
+      case LALT_T(KC_2):
+        return '#';  // Symbol key.
+
+      case KC_SPC:
+        return ' ';  // Space key.
+
+      case KC_QUOT:
+        return '\'';  // Quote key.
+    }
+  }
+
+  // Otherwise clear Sentence Case to initial state.
+  sentence_case_clear();
+  return '\0';
 }
